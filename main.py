@@ -5,15 +5,18 @@ import wget
 import sys
 
 # Accept command line arguments for url
-def main( url = None ):
+def main( baseURL = None ):
 
-  '''for i in range(20):
-    url = baseurl + str(i)
-    print(wget.download(url, ('m3u/apollotvshows-'+str(i)+'.m3u')))
-    apollolist = streamClasses.rawStreamList('m3u/apollotvshows-'+str(i)+'.m3u')'''
+  if baseURL is None:
+    return
 
+  for i in range(1, 10):
+    url = baseURL + '/tvshows/' + str(i)
+    filename = wget.download(url, 'm3u')
+    apollolist = streamClasses.rawStreamList(filename)
+
+  url = baseURL + '/movies'
   filename = wget.download(url, 'm3u')
-  print(filename) #if not downloading comment out this line.
   apollomovies = streamClasses.rawStreamList(filename)
 
 

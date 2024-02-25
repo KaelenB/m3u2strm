@@ -178,6 +178,9 @@ def stripYear(title):
   return
 
 def languageMatch(line):
+  if (len(line) < 3):
+    return 
+  
   languagematch = re.compile('[|][A-Z][A-Z][|]', re.IGNORECASE).search(line)
   if languagematch:
     return languagematch
