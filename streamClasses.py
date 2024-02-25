@@ -138,32 +138,35 @@ class rawStreamList(object):
   def parseLine(self):
     linenumber=0
     for j in range(len(self.lines)):
-      numlines = len(self.lines)
-      if linenumber >= numlines:
-        return 0
-      if not linenumber:
-        linenumber = 0
-      thisline = self.lines[linenumber]
-      nextline = self.lines[linenumber + 1]
-      firstline = re.compile('EXTM3U', re.IGNORECASE).search(thisline)
-      if firstline:
-        linenumber += 1
-        continue
-      if thisline[0] == "#" and nextline[0] == "#":
-        if tools.verifyURL(self.lines[linenumber+2]):
-          self.log.write_to_log(msg=' '.join(["raw stream found:", str(linenumber),'\n', ' '.join([thisline, nextline]),self.lines[linenumber+2]]))
-          self.parseStream(' '.join([thisline, nextline]),self.lines[linenumber+2])
-          linenumber += 3
-          #self.parseLine(linenumber)
-        else:
-          self.log.write_to_log(msg=' '.join(['Error finding raw stream in linenumber:', str(linenumber),'\n', ' '.join(self.lines[linenumber:linenumber+2])]))
+      try:
+        numlines = len(self.lines)
+        if linenumber >= numlines:
+          return 0
+        if not linenumber:
+          linenumber = 0
+        thisline = self.lines[linenumber]
+        nextline = self.lines[linenumber + 1]
+        firstline = re.compile('EXTM3U', re.IGNORECASE).search(thisline)
+        if firstline:
           linenumber += 1
+          continue
+        if thisline[0] == "#" and nextline[0] == "#":
+          if tools.verifyURL(self.lines[linenumber+2]):
+            self.log.write_to_log(msg=' '.join(["raw stream found:", str(linenumber),'\n', ' '.join([thisline, nextline]),self.lines[linenumber+2]]))
+            self.parseStream(' '.join([thisline, nextline]),self.lines[linenumber+2])
+            linenumber += 3
+            #self.parseLine(linenumber)
+          else:
+            self.log.write_to_log(msg=' '.join(['Error finding raw stream in linenumber:', str(linenumber),'\n', ' '.join(self.lines[linenumber:linenumber+2])]))
+            linenumber += 1
+            #self.parseLine(linenumber)
+        elif tools.verifyURL(nextline):
+          self.log.write_to_log(msg=' '.join(["raw stream found: ", str(linenumber),'\n', '\n'.join([thisline,nextline])]))
+          self.parseStream(thisline, nextline)
+          linenumber += 2
           #self.parseLine(linenumber)
-      elif tools.verifyURL(nextline):
-        self.log.write_to_log(msg=' '.join(["raw stream found: ", str(linenumber),'\n', '\n'.join([thisline,nextline])]))
-        self.parseStream(thisline, nextline)
-        linenumber += 2
-        #self.parseLine(linenumber)
+      except:
+        pass
 
   def parseStreamType(self, streaminfo):
     typematch = tools.tvgTypeMatch(streaminfo)
