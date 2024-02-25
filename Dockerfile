@@ -13,6 +13,9 @@ RUN git clone https://github.com/KaelenB/m3u2strm.git
 
 WORKDIR /m3u2strm
 
+# create m3u directory
+RUN mkdir m3u
+
 # entrypoing main.py
 ENTRYPOINT ["python3", "main.py"]
 

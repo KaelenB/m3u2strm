@@ -12,8 +12,9 @@ def main( url = None ):
     print(wget.download(url, ('m3u/apollotvshows-'+str(i)+'.m3u')))
     apollolist = streamClasses.rawStreamList('m3u/apollotvshows-'+str(i)+'.m3u')'''
 
-  print(wget.download(url, ('m3u/iptmovies.m3u'))) #if not downloading comment out this line.
-  apollomovies = streamClasses.rawStreamList('m3u/iptmovies.m3u')
+  filename = wget.download(url, 'm3u')
+  print(filename) #if not downloading comment out this line.
+  apollomovies = streamClasses.rawStreamList(filename)
 
 
 
