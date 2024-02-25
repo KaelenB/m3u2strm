@@ -12,7 +12,7 @@ def main( baseURL = None ):
 
   for i in range(1, 10):
     url = baseURL + '/tvshows/' + str(i)
-    filename = wget.download(url, 'm3u')
+    filename = wget.download(url, 'm3u/collection' + str(i))
     apollolist = streamClasses.rawStreamList(filename)
 
   url = baseURL + '/movies/'
